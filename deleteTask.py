@@ -1,11 +1,15 @@
 import requests
-add_addres  = "https://emdadmobilerahmati.ir/mosi/Tasks/Tasks.php"
+import json
+
+add_addres  = "http://emdadmobilerahmati.ir/mosi/Tasks/Tasks.php"
 
 
 task = {
-    'id' :"4",
+    'id' :"1",
 }
 
 res = requests.delete(add_addres,params=task)
 
-print(res.content)
+print("\n")
+
+print(json.loads(res.content)['status'] == 'true')

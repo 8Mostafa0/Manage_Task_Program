@@ -45,7 +45,7 @@ function addTask(){
             
         }
         write_data($data);
-        echo "{'status':'true'}";
+        echo '{"status":"true"}';
         
     }
 }
@@ -73,7 +73,7 @@ function deleteTask(){
     $data = get_data();
     unset($data[ $id]);
     write_data($data);
-    echo "{'status':'true'}";
+    echo '{"status":"true"}';
 
 }
 
