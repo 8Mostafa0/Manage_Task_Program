@@ -1,0 +1,58 @@
+{
+    "0": {
+        "id": "1",
+        "command": "/home/mosielite1/config_sender.py",
+        "hour": "5",
+        "minute": "30",
+        "username": "mosielite1",
+        "apikey": "08d7f2a8b0a265af1751edb791cfbd348b7c9a41"
+    },
+    "1": {
+        "id": "2",
+        "command": "/home/mosielite2/config_sender.py",
+        "hour": "11",
+        "minute": "30",
+        "username": "mosielite2",
+        "apikey": "5eccbbcf232b675e83daf10a20b517af10f6ccfa"
+    },
+    "2": {
+        "id": "3",
+        "command": "/home/mosielite3/config_sender.py",
+        "hour": "17",
+        "minute": "30",
+        "username": "mosielite3",
+        "apikey": "b4f98e92c9a507e343d82acebd252cafc0089dad"
+    },
+    "3": {
+        "id": "4",
+        "command": "/home/mosielite4/GitTest/automation_test/git_automation.py",
+        "hour": "00",
+        "minute": "00",
+        "username": "mosielite4",
+        "apikey": "6ce92f22f5af9402696773ce78a3fffe09a04d84"
+    },
+    "4": {
+        "id": "5",
+        "command": "/home/mosielite5/mosi/automation_test/git_automation.py",
+        "hour": "15",
+        "minute": "45",
+        "username": "mosielite5",
+        "apikey": "80d3e1a6d644ada6745d7809bb5558ed8e5c588a"
+    },
+    "5": {
+        "id": "6",
+        "command": "/home/mosielite6/resettasks.py",
+        "hour": "20",
+        "minute": "30",
+        "username": "mosielite6",
+        "apikey": "000c5ba46cf65b696d26004ea90e6a915be8ac1e"
+    },
+    "6": {
+        "id": "7",
+        "command": "/home/mosielite7/bot.py",
+        "hour": "17",
+        "minute": "30",
+        "username": "mosielite7",
+        "apikey": "864fcd012e99efda3b4352e7b1c898157d2030c6"
+    }
+}

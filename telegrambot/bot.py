@@ -19,8 +19,8 @@ URI = f"https://api.telegram.org/bot{BOT_TOKEN}"
 def send_message(text):
     url = f"{URI}/sendMessage"
     params = {
-        "chat_id": "983588626",
-        # "chat_id": "@bandbchannel",
+        # "chat_id": "983588626",
+        "chat_id": "@bandbchannel",
         "text": text
     }
     return send_reply(url, params)
@@ -31,6 +31,8 @@ def send_reply(url: str, params: dict):
 
 
 def send_pic_text(pic_link,text):
+    text += "\n\n"
+    text += "💠@bandbchannel⚡️"
     url = f"{URI}/sendPhoto"
     params = {
         "chat_id": "983588626",
