@@ -90,18 +90,38 @@ if(isset($data['message'])){
         if(user_joined()){
 
             if($text[0] == "/" && explode(" ",$text) > 1){
-                
-                $vid = substr(explode(" ",$text)[1],3);
+                $vid = explode(" ",$text)[1];
                 $vid = explode("-",$vid);
-                $id = $vid[1];
-                $vid = get_vide($id);
-                if($vid){
-                    $res = send_video($vid['file_id']);
-                    $res = json_decode($res,true);
-                    sleep(10);
-                    $res = delete_message($res['result']['message_id']);
-                    send_message("😉");
-            }
+                $end = $vid[count($vid)-1];
+                $start = $vid[count($vid)-2];
+                $vid = [];
+                for($i = $start;$i < $end;$i++){
+                    $d = get_vide($i);
+                    if($d){
+                        array_push($vid,$d);
+                    }
+                }
+                if(count($vid)  > 0){
+                    $media = [];
+                    foreach ($vid as $fileId) {
+                        $media[] = [
+                            "type" => "video",
+                            "media" => $fileId['file_id']
+                        ];
+                    }
+                    if($vid){
+                        $res = send_video($media);
+                        $res = json_decode($res,true);
+                        sleep(10);
+                        $data = $res['result'];
+                        foreach($data as $d){
+                            $res = delete_message($d['message_id']);
+                        }
+                        send_message("😉");
+                    }
+                }else{
+                    send_message("این فایل در دسترس نمی باشد🤷‍♂️: ");
+                }
         }else{
             send_message("فعلا فعالیتی در دسترس نیست");
         }
@@ -493,10 +513,10 @@ function user_in_channel($chat_id,$channel){
     $res = send_request($url,$parameters);
     $res = json_decode($res,true);
     if($res['ok']){
-        if($res['result']['status'] !== "member"){
-            return false;
-        }else{
+        if($res['result']['status'] == "member" || $res['result']['status'] == "creator"){
             return true;
+        }else{
+            return false;
         }
     }else{
         return false;
@@ -546,7 +566,7 @@ function get_vide($message_id){
         if ($result) {
             return $result;
         } else {
-            send_message("این فایل در دسترس نمی باشد🤷‍♂️: ");
+            return false;
         }
         
     } catch (PDOException $e) {
@@ -809,9 +829,9 @@ function getRowById( $tableName, $id) {
     }
 }
 function send_video($message){
-    $url = $GLOBALS['URL']."/sendVideo";
-    $caption = "این فایل پس از 10 ثانیه پاک میشود لطفا ان را در جایی ذخیره کنید\n\n🍑@PleasurePal_bot🍑";
-    $parameters = ['chat_id' => $GLOBALS['chat_id'],'video' => $message,'caption' => $caption];
+    $url = $GLOBALS['URL']."/sendMediaGroup";
+    send_message("این فایل پس از 10 ثانیه پاک میشود لطفا ان را در جایی ذخیره کنید\n\n🍑@PleasurePal_bot🍑");
+    $parameters = ['chat_id' => $GLOBALS['chat_id'],'media' => json_encode($message)];
     $res = send_request($url,$parameters);
     return $res;
 }

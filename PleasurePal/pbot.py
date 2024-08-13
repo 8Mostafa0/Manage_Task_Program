@@ -28,7 +28,8 @@ def send_message(text):
     # Payload with the message
     payload = {
         'chat_id': CH_ID,
-        'text': text
+        'text': text,
+        'parse_mode' : 'Markdown'
     }
     response = requests.post(url, data=payload)
     print(response.json()['ok'])
@@ -49,14 +50,12 @@ def get_last_count():
 
 def set_count():
     data = load_data()
-    data['count'] +=10
+    data['count'] +=5
     save_state(data)
 
 def get_response(link):
     try:
         response = requests.get(link)
-        print("1")
-        print(response.status_code)
         res = response.status_code
         if res == 400 or res == 200:
             return response
@@ -64,7 +63,6 @@ def get_response(link):
             return get_response(link)
              
     except:
-        print("2")
         return get_response(link)
     
 def check_message(message_id):
@@ -89,7 +87,7 @@ def get_links(index):
     messages = []
     for i in range(index,index+20):
         print(i)
-        if len(messages) < 11:
+        if len(messages) < 6:
             mid = check_message(i)
             if mid != False:
                 messages.append(i)
@@ -117,12 +115,12 @@ def main():
         links = get_links(last_count)
         if( len(links) >0):
             text = "بهترین بهترینها باز هم از  🍑  PleasurePal@ 🍑 \n\n"
-            for i,j in enumerate(links):
-                text += "https://t.me/PleasurePal_bot?start=vid-"+str(j)+" 😻\n"
+            text += "[مشاهده فیلم های جدید😻](https://t.me/PleasurePal_bot?start=vid-"+str(links[0])+"-"+str(links[-1])+")\n"
 
             text+= "\n\n 💪 با ما همیشه عقاب تک پر بمانید🦅 "
             send_message(text)
         set_count()
+        Alarm("محتوای جدید به کانال PleasurePal@ اضافه شد")
     else:
         generate_state_json(file_path)
         main()
