@@ -30,18 +30,48 @@ def send_reply(url: str, params: dict):
     return response.content
 
 
-def send_pic_text(pic_link,text):
+# def send_pic_text(pic_link,text):
+#     text += "\n\n"
+#     text += "💠@bandbchannel⚡️"
+#     url = f"{URI}/sendPhoto"
+#     params = {
+#         # "chat_id": "983588626",
+#         "chat_id": "@bandbchannel",
+#         "photo" : pic_link,
+#         "caption": text
+#     }
+#     return send_reply(url, params)
+def send_pic_text(pic_link, text):
     text += "\n\n"
     text += "💠@bandbchannel⚡️"
     url = f"{URI}/sendPhoto"
-    params = {
-        "chat_id": "983588626",
-        # "chat_id": "@bandbchannel",
-        "photo" : pic_link,
-        "caption": text
-    }
-    return send_reply(url, params)
-
+    
+    # Step 1: Download the photo from the provided link
+    redirect_link = "https://redirector.jasraj-love.workers.dev/?url="+pic_link
+    photo_response = requests.post(redirect_link)
+    if photo_response.status_code == 200:
+        # Step 2: Save the photo to a temporary file
+        photo_filename = "temp_photo.jpg"
+        with open(photo_filename, "wb") as photo_file:
+            photo_file.write(photo_response.content)
+        
+        # Step 3: Send the actual file to Telegram's server
+        with open(photo_filename, "rb") as photo_file:
+            params = {
+                # "chat_id": "983588626",
+                "chat_id": "@bandbchannel",
+                "caption": text
+            }
+            files = {'photo': photo_file}
+            
+            response = requests.post(url, data=params, files=files)
+        
+        # Step 4: Clean up the temporary photo file
+        os.remove(photo_filename)
+        
+        return response.content
+    else:
+        return f"Failed to download photo from {pic_link}"
 
 def get_p(id):
     conn = sqlite3.connect('pictures.db')
@@ -114,7 +144,8 @@ def start():
 
             write_data(data)
             
-            send_pic_text(p,t)
+            res = send_pic_text(p,t)
+            print(res)
             text = "اطلاعات مرتبه :"
             text += str(p_id)
             text += "با موفقیت از طریق ربات  B & B به کانال ارسال شد"
